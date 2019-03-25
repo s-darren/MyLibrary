@@ -68,9 +68,110 @@ function throttle(fn, interval) {
     }, interval || 500)
   }
 }
+/**
+ * 判断年份是否为润年
+ *
+ * @param {Number} year
+ */
+function isLeapYear(year) {
+  return (year % 400 === 0) || (year % 4 === 0 && year % 100 !== 0);
+}
+/**
+ * 获取某一年份的某一月份的天数
+ *
+ * @param {Number} year
+ * @param {Number} month
+ */
+function getMonthDays(year, month) {
+  return [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month] || (isLeapYear(year) ? 29 : 28);
+}
 
+/**
+ * 获取某年的某天是第几周
+ * @param {Number} y
+ * @param {Number} m
+ * @param {Number} d
+ * @returns {Number}
+ */
+function getWeekNumber(y, m, d) {
+  let now = new Date(y, m - 1, d)
+  let year = now.getFullYear()
+  let month = now.getMonth()
+  let days = now.getDate()
+  //那一天是那一年中的第多少天
+  for (var i = 0; i < month; i++) {
+    days += getMonthDays(year, i);
+  }
+
+  //那一年第一天是星期几
+  let yearFirstDay = new Date(year, 0, 1).getDay() + 1;
+
+  let week = null;
+  if (yearFirstDay === 1) {
+    week = Math.ceil(days / 7);
+  } else {
+    days -= (7 - yearFirstDay + 1);
+    week = Math.ceil(days / 7) + 1;
+  }
+
+  return week;
+}
+
+/**
+ * 获取某年的每一个月的周数
+ * @param {Number} y
+ * @returns {Array}
+ */
+function getMonthWeek(y) {
+  // let now = new Date(y, m - 1, d)
+  let weeks = []
+  for (let i = 0; i < 12; i++) {
+    let monthWeeks = []
+    let firstday = new Date(y, i, 1)
+    let firstweek = getWeekNumber(firstday.getFullYear(), firstday.getMonth() + 1, firstday.getDate())
+    let lastday = new Date(y, i, getMonthDays(y, i))
+    let lastweek = getWeekNumber(lastday.getFullYear(), lastday.getMonth() + 1, lastday.getDate())
+    for (let j = firstweek; j <= lastweek; j++) {
+      monthWeeks.push(j)
+    }
+    weeks.push(monthWeeks)
+  }
+  return weeks;
+}
+function isClass(o) {
+  if (o === null) return 'Null'
+  if (o === undefined) return 'Undefined'
+  return Object.prototype.toString.call(o).slice(8, -1)
+}
+/**
+ * 用于处理数组中每一项并格式化取值和去重，一般用于自动生成某些编号或者排序号
+ * @author s-darren 2019-1-17
+ * @param {Array} data 需要处理的数组
+ * @param {Function} format  用于处理数组中每一项并格式化取值的函数
+ * @param {Boolean} isSet 是否需要去重，默认需要去重
+ */
+function getArrayFormatSet(data, format, isSet = true) {
+  let formatArray = []
+  // eslint-disable-next-line
+  for (let [idx, val] of data.entries()) {
+    formatArray.push(format(val))
+  }
+  let returnArray
+  if(isSet) {
+    returnArray = [...new Set(formatArray)]
+  } else {
+    returnArray = [...formatArray]
+  }
+  return returnArray
+}
 export  {
   adjustSequence,
   debounce,
-  throttle
+  throttle,
+  isLeapYear,
+  getMonthDays,
+  getWeekNumber,
+  getMonthWeek,
+  isClass,
+  getArrayFormatSet
 }
