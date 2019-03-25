@@ -1,0 +1,6 @@
+.*
+*.md
+*.yml
+node_modules/
+.git/
+
