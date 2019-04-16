@@ -138,11 +138,6 @@ function getMonthWeek(y) {
   }
   return weeks;
 }
-function isClass(o) {
-  if (o === null) return 'Null'
-  if (o === undefined) return 'Undefined'
-  return Object.prototype.toString.call(o).slice(8, -1)
-}
 /**
  * 用于处理数组中每一项并格式化取值和去重，一般用于自动生成某些编号或者排序号
  * @author s-darren 2019-1-17
@@ -164,6 +159,29 @@ function getArrayFormatSet(data, format, isSet = true) {
   }
   return returnArray
 }
+// 普遍遍历器
+function* commonIterator(x) {
+  switch(isClass(x)) {
+    case 'Array': 
+      for (let [idx, val] of x.entries()) {
+        yield [idx, val]
+      }
+      break
+    case 'Object':
+      for (let [key, val] of Object.entries(x)) {
+        yield [key, val]
+      }
+      break
+    default: 
+      throw new Error('can\'t iterator')
+  }
+}
+function isClass(o) {
+  if(Number.isNaN(o)) {
+    return 'NaN'
+  }
+  return Object.prototype.toString.call(o).slice(8, -1)
+}
 export  {
   adjustSequence,
   debounce,
@@ -173,5 +191,6 @@ export  {
   getWeekNumber,
   getMonthWeek,
   isClass,
-  getArrayFormatSet
+  getArrayFormatSet,
+  commonIterator
 }
