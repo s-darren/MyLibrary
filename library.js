@@ -162,15 +162,16 @@ function getArrayFormatSet(data, format, isSet = true) {
 // 普遍遍历器
 function* commonIterator(x) {
   switch(isClass(x)) {
-    case 'Array': 
-      for (let [idx, val] of x.entries()) {
-        yield [idx, val]
-      }
+    case 'Array':
+    case 'Set':
+    case 'Map':
+      yield* x.entries()
       break
     case 'Object':
-      for (let [key, val] of Object.entries(x)) {
-        yield [key, val]
-      }
+      yield* Object.entries(x)
+      break
+    case 'String':
+      yield* x
       break
     default: 
       throw new Error('can\'t iterator')
