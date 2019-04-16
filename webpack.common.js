@@ -37,7 +37,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env'],
-            plugins: [['transform-vue-jsx'], ["@babel/plugin-proposal-decorators", { "legacy": true }]]
+            plugins: [['transform-vue-jsx'], ["@babel/plugin-proposal-decorators", { "legacy": true }],['@babel/plugin-proposal-pipeline-operator', { 'proposal': 'minimal' }], ['@babel/plugin-proposal-optional-chaining']]
           }
         }
       },

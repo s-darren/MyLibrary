@@ -3,4 +3,5 @@
 *.yml
 node_modules/
 .git/
+coverage/
 
