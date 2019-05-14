@@ -1,6 +1,6 @@
 {
   "name": "darrenlibrary",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "darren",
   "main": "dist/main.bundle.js",
   "scripts": {
