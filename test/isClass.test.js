@@ -1,4 +1,5 @@
-import { isClass } from '../library'
+import Identify from '../identify.js'
+let { isClass } = Identify
 let a = {}
 let b = []
 let c = Symbol()

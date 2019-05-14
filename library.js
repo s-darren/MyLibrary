@@ -1,3 +1,4 @@
+import Identify from './identify'
 /**
  * @author s-darren 2019-1-28
  * @param {array} 需要调整数据序列的数组
@@ -161,7 +162,7 @@ function getArrayFormatSet(data, format, isSet = true) {
 }
 // 普遍遍历器
 function* commonIterator(x) {
-  switch(isClass(x)) {
+  switch(Identify.isClass(x)) {
     case 'Array':
     case 'Set':
     case 'Map':
@@ -177,12 +178,6 @@ function* commonIterator(x) {
       throw new Error('can\'t iterator')
   }
 }
-function isClass(o) {
-  if(Number.isNaN(o)) {
-    return 'NaN'
-  }
-  return Object.prototype.toString.call(o).slice(8, -1)
-}
 export  {
   adjustSequence,
   debounce,
@@ -191,7 +186,7 @@ export  {
   getMonthDays,
   getWeekNumber,
   getMonthWeek,
-  isClass,
   getArrayFormatSet,
-  commonIterator
+  commonIterator,
+  Identify
 }
