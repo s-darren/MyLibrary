@@ -178,6 +178,56 @@ function* commonIterator(x) {
       throw new Error('can\'t iterator')
   }
 }
+function toHandleToBeforeFn(fn, beforeFn) {
+  let before = {
+    async apply (target, ctx, args) {
+      await Reflect.apply(beforeFn, ctx, args)
+      return await Reflect.apply(...arguments)
+    }
+  };
+  let proxy = new Proxy(fn, before);
+  return proxy
+}
+
+function toHandleToAfterFn(fn, afterFn) {
+  let after = {
+    async apply (target, ctx, args) {
+      let result = await Reflect.apply(...arguments)
+      await Reflect.apply(afterFn, ctx, args)
+      return result
+    }
+  };
+  let proxy = new Proxy(fn, after);
+  return proxy
+}
+
+function toHandleInnerFn(innerFn, outerFn) {
+  let inner = {
+    async apply (target, ctx, args) {
+      let result = await Reflect.apply(...arguments)
+      return await Reflect.apply(outerFn, ctx, [result])
+    }
+  }
+  let proxy = new Proxy(innerFn, inner);
+  return proxy
+}
+
+function addLog(fn, Sequence = false) {
+  let logOption = {
+    async apply (target, ctx, args) {
+      let funID = Math.random()
+      if(Sequence) {
+        console.trace()
+      }
+      console.log(`Start Execution function ${target.name}, Id: ${funID}, this:`, ctx, `, args:`, args, `, time:`, new Date().getTime())
+      let result =  await Reflect.apply(...arguments)
+      console.log(`Finish Execution function ${target.name}, Id: ${funID}, result:`, result, `, time:`, new Date().getTime())
+      return result
+    }
+  };
+  let proxy = new Proxy(fn, logOption);
+  return proxy
+}
 export  {
   adjustSequence,
   debounce,
@@ -188,5 +238,9 @@ export  {
   getMonthWeek,
   getArrayFormatSet,
   commonIterator,
-  Identify
+  Identify,
+  toHandleToBeforeFn,
+  toHandleToAfterFn,
+  toHandleInnerFn,
+  addLog
 }
