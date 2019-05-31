@@ -1,5 +1,4 @@
-import Identify from './identify'
-import { promises } from 'fs';
+import Identify from './identify.js'
 /**
  * @author s-darren 2019-1-28
  * @param {array} 需要调整数据序列的数组
