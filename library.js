@@ -1,4 +1,5 @@
 import Identify from './identify'
+import { promises } from 'fs';
 /**
  * @author s-darren 2019-1-28
  * @param {array} 需要调整数据序列的数组
@@ -212,7 +213,7 @@ function toHandleInnerFn(innerFn, outerFn) {
   return proxy
 }
 
-function addLog(fn, Sequence = false) {
+function addLog(fn, Sequence = true) {
   let logOption = {
     async apply (target, ctx, args) {
       let funID = Math.random()
@@ -228,6 +229,21 @@ function addLog(fn, Sequence = false) {
   let proxy = new Proxy(fn, logOption);
   return proxy
 }
+
+function traceModify(obj, Sequence = true) {
+  let traceOption = {
+    set: function(obj, prop, value, receiver) {
+      console.log('set ', prop, 'to ', value)
+      if(Sequence) {
+        console.trace()
+      }
+      obj[prop] = value;
+      return true
+    }
+  }
+  return new Proxy(obj, traceOption)
+}
+
 export  {
   adjustSequence,
   debounce,
@@ -242,5 +258,6 @@ export  {
   toHandleToBeforeFn,
   toHandleToAfterFn,
   toHandleInnerFn,
-  addLog
+  addLog,
+  traceModify
 }
