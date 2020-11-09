@@ -2,7 +2,7 @@
 # MyLibrary
 用法
 ```javascript
-npm i darrenlibrary -s
+npm i @s-adrren/library -s
 import 'darrenlibrary'
 darrenLibrary.getMonthWeek(2018)
 ```
