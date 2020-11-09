@@ -3,11 +3,10 @@
 用法
 ```javascript
 npm i @s-adrren/library -s
-import 'darrenlibrary'
+import '@s-darren/library'
 darrenLibrary.getMonthWeek(2018)
 ```
 ```javascript
-npm i darrenlibrary -s
 import { getMonthWeek } from 'darrenlibrary'
 getMonthWeek(2018)
 ```
