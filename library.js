@@ -219,9 +219,12 @@ function addLog(fn, Sequence = true) {
       if(Sequence) {
         console.trace()
       }
-      console.log(`Start Execution function ${target.name}, Id: ${funID}, this:`, ctx, `, args:`, args, `, time:`, new Date().getTime())
+      let startTime = performance.mark(`fn${funID} start`)
+      console.log(`Start Execution function ${target.name}, Id: ${funID}, this:`, ctx, `, args:`, args, `, time:`, startTime.startTime)
       let result =  await Reflect.apply(...arguments)
-      console.log(`Finish Execution function ${target.name}, Id: ${funID}, result:`, result, `, time:`, new Date().getTime())
+      let finishTime = performance.mark(`fn${funID} finish`)
+      let totalTime = performance.measure(`fn${funID} totalTime`, `fn${funID} start`, `fn${funID} finish`)
+      console.log(`Finish Execution function ${target.name}, Id: ${funID}, result:`, result, `, time:`, finishTime.startTime, `, totalTime:`, totalTime.duration)
       return result
     }
   };
