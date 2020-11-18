@@ -8,8 +8,12 @@ import date from './date.js'
  * @param {num} 需要调整数据的数量，默认为1
  */
 function adjustSequence(array, index, adjustPosition, num = 1) {
+  if(adjustPosition === 0) {
+    return array
+  }
   let tempData = array.splice(index, num)
   array.splice(index + adjustPosition, 0, ...tempData)
+  return array
 }
 
 /**
