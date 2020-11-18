@@ -20,11 +20,16 @@ function isObject(o) {
 function isArray(o) {
   return Object.prototype.toString.call(o).slice(8, -1) === 'Array'
 }
+// 判断是否为bigInt
+function isBigInt(o) {
+  return Object.prototype.toString.call(o).slice(8, -1) === 'BigInt'
+}
 
 export default {
   isClass,
   isAsyncFunction,
   isNaNObject,
   isObject,
-  isArray
+  isArray,
+  isBigInt
 }

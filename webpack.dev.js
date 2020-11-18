@@ -12,7 +12,7 @@ module.exports = merge(common, {
     contentBase: './'
   },
   output: {
-    library: 'darrenLibrary',
+    library: 'dl',
     libraryTarget: 'umd'
   },
   plugins: [

@@ -1,5 +1,5 @@
-import Identify from '../identify.js'
-let { isClass } = Identify
+import dataType from '../dataType.js'
+let { isClass } = dataType
 let a = {}
 let b = []
 let c = Symbol()
@@ -13,6 +13,7 @@ let j = NaN
 let k = 'a'
 let l = 1
 let m = true
+let n = BigInt(374637846284)
 describe('isClass函数功能测试', () => {
   // 
   it('对象测试', () => {
@@ -53,5 +54,8 @@ describe('isClass函数功能测试', () => {
   })
   it('Boolean测试', () => {
     expect(isClass(m)).toBe('Boolean')
+  })
+  it('BigInt测试', () => {
+    expect(isClass(n)).toBe('BigInt')
   })
 })

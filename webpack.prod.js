@@ -12,7 +12,7 @@ module.exports = merge(common, {
     main: './library.js'
   },
   output: {
-    library: 'darrenLibrary',
+    library: 'dl',
     libraryTarget: 'umd'
   },
   // 排除依赖包打包进组件库
